@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Antenna VSWR Calculator</title>
+<style>
+  body { font-family: system-ui, Arial, sans-serif; max-width: 1100px; margin: 24px auto; padding: 0 16px; color: #1c1c1c; }
+  h1 { font-size: 1.4rem; }
+  h2 { font-size: 1.1rem; margin-top: 24px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: center; }
+  th { background: #f2f4f7; }
+  input[type=number] { width: 100%; box-sizing: border-box; padding: 4px; }
+  .cfg input[type=number] { width: 90px; }
+  .cfg { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  fieldset { border: 1px solid #ccc; border-radius: 6px; padding: 8px 12px; }
+  fieldset label { display: flex; justify-content: space-between; align-items: center; margin: 6px 0; gap: 8px; }
+  .stage { border: 1px solid #b8c4d6; border-radius: 8px; padding: 10px 12px; margin: 12px 0; background: #fafbfd; }
+  .stageHead { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+  button { cursor: pointer; padding: 6px 12px; }
+  .del { padding: 2px 8px; }
+  tr.max td { background: #fff3cd; font-weight: 600; }
+  #summary { font-size: 1.1rem; padding: 12px; background: #eef6ff; border-radius: 6px; margin-top: 12px; }
+  #error { color: #b00020; margin: 8px 0; }
+  pre { background: #f6f6f6; padding: 8px 12px; border-radius: 6px; overflow-x: auto; }
+  .tablewrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+  <h1>Antenna VSWR Calculator</h1>
+ 
+<pre>
+ Z_load --[ series line 1 ]--+--[ series line 2 ]--+-- ... --[ series line N ]--+-- entry point N (to source)
+                             |                     |                            |
+                          stub 1                stub 2                       stub N
+                       (shorted)             (shorted)                    (shorted)
+ 
+ Entry point k-1 becomes the load of series line k.  VSWR is evaluated at entry point N.
+</pre>
+ 
+  <fieldset style="max-width:360px">
+    <legend>System</legend>
+    <label>Reference impedance Z<sub>0</sub> (&Omega;) <input type="number" id="z0" value="50" step="any" min="0"></label>
+  </fieldset>
+ 
+  <h2>Network stages (counted from Z<sub>load</sub> towards the source)</h2>
+  <div id="stages"></div>
+  <button type="button" id="addStage">+ Add stage (series line + shunt stub)</button>
+ 
+  <h2>Load impedance Z<sub>load</sub> per frequency</h2>
+  <table>
+    <thead>
+      <tr><th rowspan="2">Frequency (MHz)</th><th colspan="2">Z<sub>load</sub> = Re + j&middot;Im (&Omega;)</th><th rowspan="2"></th></tr>
+      <tr><th>Re (resistance)</th><th>Im (reactance)</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <button type="button" id="add">+ Add frequency</button>
+ 
+  <div id="error"></div>
+ 
+  <h2>Results</h2>
+  <div class="tablewrap">
+    <table>
+      <thead id="resHead"></thead>
+      <tbody id="results"></tbody>
+    </table>
+  </div>
+ 
+  <div id="summary"></div>
+ 
+  <script src="vswr.js"></script>
+</body>
+</html>
+ 
