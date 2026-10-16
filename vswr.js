@@ -1,6 +1,6 @@
 // vswr.js
 //
-// Cascade of identical-topology stages, counted from the load towards the source:
+// Cascade of identical-topology stges, counted from the load towards the source:
 //
 //   Zload --[series line 1]--+--[series line 2]--+-- ... --[series line N]--+  entry point N
 //                            |                   |                          |
@@ -95,7 +95,7 @@ function stageImpedance(freq, Zload, stage) {
  
 /**
  * Impedance at the entry point of the whole cascade for one frequency.
- * cfg: { Z0, stages: [stage, stage, ...] }  (stages[0] is next to the load)
+ * cfg: { Z0, stges: [stage, stage, ...] }  (stges[0] is next to the load)
  * Returns { entries: [Zentry of stage 1, ..., Zentry of stage N], Zentry }.
  */
 function entryImpedance(freq, Zload, cfg) {
@@ -182,13 +182,13 @@ if (typeof document !== "undefined") {
       '<fieldset><legend>Series line</legend>' +
       '<label>Characteristic impedance (&Omega;) <input type="number" class="lineZ0" value="50" step="any" min="0"></label>' +
       '<label>Physical length (m) <input type="number" class="lineLen" value="0.15" step="any" min="0"></label>' +
-      '<label>Velocity factor <input type="number" class="lineVf" value="0.66" step="any" min="0" max="1"></label>' +
+      '<label>Velocity factor <input type="number" class="lineVf" value="1.0" step="any" min="0" max="1"></label>' +
       '</fieldset>' +
       '<fieldset><legend>Shunt stub, short-circuited at far end</legend>' +
       '<label>Include stub <input type="checkbox" class="stubOn" checked></label>' +
       '<label>Characteristic impedance (&Omega;) <input type="number" class="stubZ0" value="50" step="any" min="0"></label>' +
       '<label>Physical length (m) <input type="number" class="stubLen" value="0.10" step="any" min="0"></label>' +
-      '<label>Velocity factor <input type="number" class="stubVf" value="0.66" step="any" min="0" max="1"></label>' +
+      '<label>Velocity factor <input type="number" class="stubVf" value="1.0" step="any" min="0" max="1"></label>' +
       '</fieldset></div>';
     st.querySelector(".delStage").addEventListener("click", () => {
       st.remove(); stageNumberLabels(); calculate();
